@@ -40,10 +40,23 @@ else
     fi
 fi
 
-GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long | awk '$1 ~ /sec/ { print $2 }' | cut -d'/' -f2)
-git config --global user.signingkey "$GPG_KEY_ID"
-git config --global commit.gpgsign true
-gpg --armor --export "$GPG_KEY_ID" > public_key.asc
-cat public_key.asc
-echo "Copy this public key and paste it into a new GPG key in your GitHub account."
+count=$(gpg --list-keys | grep -c "^pub")
+
+if [ "$count" -gt 2 ]; then
+    gpg --list-secret-keys --keyid-format=long
+    echo "Enter the Key ID you want to use for git signing:"
+    read -r GPG_KEY_ID
+    git config --global user.signingkey "$GPG_KEY_ID"
+    git config --global commit.gpgsign true
+    gpg --armor --export "$GPG_KEY_ID" > public_key.asc
+    cat public_key.asc
+    echo "Copy this public key and paste it into a new GPG key in your GitHub account."
+else
+    GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long | awk '$1 ~ /sec/ { print $2 }' | cut -d'/' -f2)
+    git config --global user.signingkey "$GPG_KEY_ID"
+    git config --global commit.gpgsign true
+    gpg --armor --export "$GPG_KEY_ID" > public_key.asc
+    cat public_key.asc
+    echo "Copy this public key and paste it into a new GPG key in your GitHub account."
+fi
 echo "GPG key setup complete."
