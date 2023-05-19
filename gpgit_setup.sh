@@ -43,7 +43,7 @@ fi
 
 count=$(gpg --list-keys | grep -c "^pub")
 
-if [ "$count" -gt 2 ]; then
+if [ "$count" -gt 1 ]; then
     gpg --list-secret-keys --keyid-format=long
     echo "Enter the Key ID you want to use for git signing:"
     read -r GPG_KEY_ID
