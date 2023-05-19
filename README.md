@@ -62,6 +62,12 @@ We have to change it to
 ```
 using **merge** commamd
 
-
+ as head is at chase-branch and we have to merge it with escaped branch. So we run command 
+ ```shell
+ git merge escaped
+ git verify
+ ```
+ 
+ 
 
 
