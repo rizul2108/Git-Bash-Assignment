@@ -3,7 +3,7 @@
 ## Exercise-1(master)
 Just to verify the setup has been completely successsful
 ```shell
-$ git verify
+ git verify
 ```
 ## Exercise-2(commit-one-file)
 *add* add the file to staging area
@@ -41,5 +41,27 @@ git add .
 git commit -m "ignored files"
 git verify
 ```
+## Exercise-5(chase-branch)
+Initially commit tree looks like this 
+```
+   HEAD
+     |
+chase-branch        escaped
+     |                 |
+     A <----- B <----- C
+```
+We have to change it to 
+```
+                    escaped
+                       |
+     A <----- B <----- C
+                       |
+                  chase-branch
+                       |
+                      HEAD
+```
+using **merge** commamd
+
+
 
 
