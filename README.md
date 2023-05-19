@@ -29,10 +29,10 @@ Type this command that creates the file **.gitignore** and opens the editor to e
 nano .gitignore 
 ```
 Enter the folllowing content
-```*.exe
+<--*.exe
 *.o
 *.jar
-libraries/```
+libraries/-->
 Then run these commands to commit all the rest files.
 ```shell
 git add .
