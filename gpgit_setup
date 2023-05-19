@@ -1,0 +1,29 @@
+#!/bin/bash
+
+if which gpg >/dev/null
+then 
+    echo "GPG is installed"
+else 
+ echo "GPG is not installed. First install GPG then try again."
+    exit 1
+fi
+
+if which git >/dev/null
+then 
+    echo "Git is Installed"
+else 
+ echo "Git is not installed. First install Git then try again."
+    exit 1
+fi
+
+if ! gpg --list-secret-keys --keyid-format=long | grep -q "sec"
+then
+  echo "No GPG key found. Generating a new key..."
+  gpg --full-generate-key
+fi
+
+GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format=long | awk '$1 ~ /sec/ { print $2 }' | cut -d'/' -f2)
+git config --global user.signingkey "$GPG_KEY_ID"
+git config --global commit.gpgsign true
+
+echo "GPG key setup complete."
