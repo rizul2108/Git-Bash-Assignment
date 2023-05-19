@@ -29,6 +29,7 @@ else
         echo "Generating a new key..."
         gpg --full-generate-key
     elif [ "$input" -eq 3 ]; then
+        gpg --list-secret-keys --keyid-format=long
         echo "Enter the key ID of the key to be deleted"
         read -r key_ID
         gpg --delete-secret-key "$key_ID"
