@@ -8,7 +8,7 @@ In this command *ssh* is a method to login into another server very securely .
 *-p* means the port at which this server will be running is 2220
 *bandit0@ bandit.labs.overthewire.org* means we are logging into this server with username bandit0
 
-##Level 0 to 1
+## Level 0 to 1
 
 ```shell
 ls -la
