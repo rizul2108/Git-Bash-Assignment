@@ -1,14 +1,15 @@
+### Bandits WarGame WriteUp
+
 ## Level 0
 
 ```shell
 ssh bandit0@bandit.labs.overthewire.org -p 2220
 ```
-
 In this command *ssh* is a method to login into another server very securely .
 *-p* means the port at which this server will be running is 2220
 *bandit0@ bandit.labs.overthewire.org* means we are logging into this server with username bandit0
 
-##Level 0 to 1
+## Level 0 to 1
 
 ```shell
 ls -la
@@ -21,7 +22,6 @@ ls -la
 ```shell
 cat readme
 ```
-
 to read the content written in the file readme
 the password I got was: **NH2SXQwcBdpmTEzi3bvBHMM9H66vVXjL**
 then ```exit``` command-\> to exit from the server
@@ -47,14 +47,10 @@ ssh bandit2@bandit.labs.overthewire.org -p 2220
 ```
 
 then entered the password
-
 I knew that the password in this level is stored in the *spaces in this filename* named file
-
 as there was space in the file name of this file so I had to run the command
-
-**cat spaces\ in\ this\ filename** to tell that there is a space after word it is not a different file
-
-the password I got was: **aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG**
+```cat spaces\ in\ this\ filename``` to tell that there is a space after word it is not a different file
+The password I got was: **aBZ0W5EmUfAf7kHTQeOwd8bauFJ2lAiG**
 
 ## Level 3 to 4
 
@@ -75,14 +71,11 @@ ssh bandit4@bandit.labs.overthewire.org -p 2220
 ```
 
 then entered the password
-
 I knew that password is in a hidden folder named inhere
-
 So, I ran command ```cd inhere``` to go to directory
-
 When current directory became inhere I ran command ls -la to list all the files in this directory there were so many files in this directory from -file00 to -file 09
 
-So I ran command 
+So ,I ran command 
 ```shell
 find . -type f | xargs file**
 ```
