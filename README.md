@@ -69,5 +69,56 @@ using **merge** commamd
  ```
  
  
+## Exercise-6(merge-conflict)
+Initially commit tree looks like this 
+```
+       HEAD
+         |
+    merge-conflict
+         |
+A <----- B
+ \
+  \----- C
+         |
+another-piece-of-work
+```
+We have to change it to 
+```
+                    escaped
+                       |
+     A <----- B <----- C
+                       |
+                  chase-branch
+                       |
+                      HEAD
+```
+I tried command 
+```shell
+git merge another-piece-of-work
+```
+But conflict showed up :
+```
+Auto-merging equation.txt
+CONFLICT (content): Merge conflict in equation.txt
+Automatic merge failed; fix conflicts and then commit the result.
+```
 
-
+So,to see the conflict I ran command
+```shell
+cat equation.txt
+```
+```
+<<<<<<< HEAD
+2 + ? = 5
+=======
+? + 3 = 5
+>>>>>>> another-piece-of-work
+```
+So, to edit the file I ran command
+```shell
+echo equation.txt>2+3=5
+git add equation.txt
+git commit -m "resolve conflict"
+git verify
+```
+equation.txt was modified. So added it again and then committed
