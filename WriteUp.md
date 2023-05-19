@@ -212,7 +212,7 @@ And then commited the new file.txt.
 ```shell
 nano file.txt
 ```
-fixed the typo in the file.txt in text editor
+fixed the typo in the file.txt in text editor.
 then added the file.txt and also ammended the last commit 
 ```shell
 git add file.txt
