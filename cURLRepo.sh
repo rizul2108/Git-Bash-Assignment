@@ -11,9 +11,6 @@ read -r REPO_NAME
 echo "Enter the repo's description"
 read -r REPO_DESCRIPTION
 
-echo "Enter the repository's visibility private/public"
-read -r REPO_VISIBILITY
-
 echo "Enter the first file's name of this repo"
 read -r FILE_NAME
 echo "Enter the first commit message"
@@ -26,7 +23,13 @@ API_REPOS_URL="https://api.github.com/user/repos"
 API_COMMITS_URL="https://api.github.com/repos/$USERNAME/$REPO_NAME/contents/$FILE_NAME"
 
 # Create the repository using cURL
-curl -u "$USERNAME:$TOKEN" -X POST -H "Accept: application/vnd.github.v3+json" "$API_REPOS_URL" -d "{\"name\":\"$REPO_NAME\",\"description\":\"$REPO_DESCRIPTION\",\"private\":$REPO_VISIBILITY}"
+curl -L \
+  -X POST \
+  -H "Accept: application/vnd.github+json" \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "X-GitHub-Api-Version: 2022-11-28" \
+  "$API_REPOS_URL" \
+  -d "{\"name\":\"$REPO_NAME\",\"description\":\"$REPO_DESCRIPTION\",\"private\":false}"
 
 # Check the response status
 RESPONSE_CODE=$?
@@ -34,7 +37,7 @@ if [ $RESPONSE_CODE -eq 0 ]; then
   echo "Repository created successfully!"
 
   # Create the file with initial content using cURL
-  curl -u "$USERNAME:$TOKEN" -X PUT -H "Accept: application/vnd.github.v3+json" "$API_COMMITS_URL" -d "{\"message\":\"$COMMIT_MESSAGE\",\"content\":\"$(echo -n $FILE_CONTENT | base64)\",\"branch\":\"main\"}"
+  curl -u "$USERNAME:$TOKEN" -X PUT -H "Accept: application/vnd.github+json" "$API_COMMITS_URL" -d "{\"message\":\"$COMMIT_MESSAGE\",\"content\":\"$(echo -n $FILE_CONTENT | base64)\",\"branch\":\"main\"}"
 
   # Check the response status
   RESPONSE_CODE=$?
