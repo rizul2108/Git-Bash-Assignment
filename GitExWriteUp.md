@@ -287,7 +287,7 @@ Just run the command
 
 It ammends the date of the last commit with new date enterred above
 
-## Exercise-12(fix-old-typo)
+## Exercise-13(fix-old-typo)
 
 Firstly run this command
 
@@ -298,6 +298,7 @@ git rebase -i HEAD~2
 then vim editor opens up
 there stay on line which you want to edit i.e.
 then press ctrl+X and set _edit_ there
+Now escape from vim editor by pressing *esc* and then type *:wq* 
 
 then run command `nano file.txt`
 and edit file.txt to Hello world from Hello wordl
