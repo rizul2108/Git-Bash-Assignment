@@ -15,6 +15,13 @@ read -r TOKEN
 # Set the repository name and description
 echo "Enter the new repository name"
 read -r REPO_NAME
+API_REPO_URL="https://api.github.com/repos/$USERNAME/$REPO_NAME"
+EXISTING_REPO=$(curl -s -o /dev/null -w "%{http_code}" -u "$USERNAME:$TOKEN" -X GET "$API_REPO_URL")
+
+if [ $EXISTING_REPO -eq 200 ]; then
+  echo "Repository already exists. Aborting..."
+  exit 1
+fi
 # check "$REPO_NAME"
 echo "Enter the repo's description"
 read -r REPO_DESCRIPTION
@@ -53,11 +60,14 @@ if [ $RESPONSE_CODE -eq 0 ]; then
       echo "First commit created successfully!"
     else
       echo "Failed to add first commit. Please check your credentials and try again."
+      exit 1
     fi
   elif [ "$INPUT" -eq 2 ]; then
-    git add .
-    git commit -m "$COMMIT_MESSAGE" -S
-    git push -u origin main
+     git init
+      git add .
+      git commit -m "$COMMIT_MESSAGE"
+      git remote add origin "https://github.com/$USERNAME/$REPO_NAME.git"
+      git push -u origin main
   fi
 else
   echo "Failed to create repository. Please check your credentials and try again."
