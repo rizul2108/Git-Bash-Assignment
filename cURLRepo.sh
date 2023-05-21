@@ -1,12 +1,5 @@
 #!/bin/bash
 
-# check() {
-#   if [[ condition ]]; then
-#     # add your condition here
-#     echo "Condition is true"
-#   fi
-# }
-
 echo "Enter your Github Username"
 read -r USERNAME
 echo "Enter your Personal Access Token(To get this token go to GitHub and copy paste it from there)"
@@ -63,7 +56,7 @@ if [ $RESPONSE_CODE -eq 0 ]; then
       exit 1
     fi
   elif [ "$INPUT" -eq 2 ]; then
-     git init
+      git init
       git add .
       git commit -m "$COMMIT_MESSAGE"
       git remote add origin "https://github.com/$USERNAME/$REPO_NAME.git"
@@ -73,6 +66,4 @@ else
   echo "Failed to create repository. Please check your credentials and try again."
 fi
 
-# Call the check function if needed
-# check
 
