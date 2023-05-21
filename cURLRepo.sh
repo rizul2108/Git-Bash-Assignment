@@ -32,7 +32,7 @@ fi
 
 while true; do
   echo "Enter the new repository name:"
-  echo -e "The repo name must satisfy these conditions: \n1) The first letter must be capital \n2) There must be no other character than alphanumeric/_/- \n3) The length of repo name must be at least 5 characters"
+  echo -e "The repo name must satisfy these conditions: \n1) There must be no other character than alphanumeric/_/- \n2) The length of repo name must be at least 5 characters"
   read -r REPO_NAME
   
   # Regex pattern to validate repository name
@@ -44,16 +44,12 @@ while true; do
     echo "Repository already exists. Enter a different name."
     
   else
-    if [[ $REPO_NAME =~ ^[A-Z] ]]; then
       if [[ $REPO_NAME =~ $REPO_NAME_REGEX ]]; then
         echo "Valid repository name: $REPO_NAME"
         break
       else
         echo "Invalid repository name."
       fi
-    else
-      echo "First letter of the repository name must be capitalized."
-    fi
   fi
 done
 
