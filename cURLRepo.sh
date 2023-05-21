@@ -16,9 +16,17 @@ function push_to_git {
   fi
 }
 
-USERNAME=$(git config --global github.user)
-echo "Enter your Personal Access Token (To get this token, go to GitHub and copy-paste it from there)"
-read -sr TOKEN
+USERNAME=$GIT_USERNAME
+TOKEN=$GITHUB_TOKEN
+if [ -z "$TOKEN" ]; then
+  echo "You haven't set the personal token in environment variable. Please enter the GitHub personal token"
+  read -sr TOKEN 
+fi 
+
+if [ -z "$USERNAME" ]; then
+  echo "You haven't set the username in environment variable. Please enter your GitHub username"
+  read -sr USERNAME 
+fi 
 
 while true; do
   echo "Enter new repository name"
@@ -29,18 +37,18 @@ while true; do
   API_REPO_URL="https://api.github.com/repos/$USERNAME/$REPO_NAME"
   EXISTING_REPO=$(curl -s -o /dev/null -w "%{http_code}" -u "$USERNAME:$TOKEN" -X GET "$API_REPO_URL")
 
-  if [ $EXISTING_REPO -eq 200 ]; then
-    echo "Repository already exists. Aborting..."
-  fi
-  if [[ $REPO_NAME =~ $REPO_NAME_REGEX ]]; then
-    echo "Valid repository name: $REPO_NAME"
-    break
+  if [ "$EXISTING_REPO" = "200" ]; then
+    echo "Repository already exists. Enter a different name"
+    
   else
-    echo "Invalid repository name. Repository name should not contain a dot (.) and the first letter must be capitalized."
+   if [[ $REPO_NAME =~ $REPO_NAME_REGEX ]]; then
+     echo "Valid repository name: $REPO_NAME"
+     break
+   else
+     echo "Invalid repository name. Repository name should not contain a dot (.) and the first letter must be capitalized."
+   fi
   fi
 done
-
-
 
 echo "Enter the repo's description"
 read -r REPO_DESCRIPTION
@@ -54,7 +62,7 @@ if [ $RESPONSE_CODE -eq 0 ]; then
   echo "Repository created successfully!"
   echo "If you want to create a new directory for this repo, press 1. If you want to add the current directory to the repo, press 2"
   read -r INPUT
-  if [ "$INPUT" -eq 1 ]; then
+  if [ "$INPUT" == "1" ]; then
     mkdir "$REPO_NAME"
     cd "$REPO_NAME"
     echo "Enter the first file's name of this repo"
@@ -64,7 +72,7 @@ if [ $RESPONSE_CODE -eq 0 ]; then
     touch "$FILE_NAME"
     echo "$FILE_CONTENT" > "$FILE_NAME"
     push_to_git "$USERNAME" "$REPO_NAME"
-  elif [ "$INPUT" -eq 2 ]; then
+  elif [ "$INPUT" == "2" ]; then
     push_to_git "$USERNAME" "$REPO_NAME"
   fi
 else
