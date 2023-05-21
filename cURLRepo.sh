@@ -21,11 +21,13 @@ TOKEN=$GITHUB_TOKEN
 if [ -z "$TOKEN" ]; then
   echo "You haven't set the personal token in environment variable. Please enter the GitHub personal token"
   read -sr TOKEN 
+  export GITHUB_TOKEN=$TOKEN
 fi 
 
 if [ -z "$USERNAME" ]; then
   echo "You haven't set the username in environment variable. Please enter your GitHub username"
   read -sr USERNAME 
+  export GIT_USERNAME=$USERNAME
 fi 
 
 while true; do
