@@ -20,17 +20,27 @@ USERNAME=$(git config --global github.user)
 echo "Enter your Personal Access Token (To get this token, go to GitHub and copy-paste it from there)"
 read -sr TOKEN
 
-# Set the repository name and description
-echo "Enter the new repository name"
-read -r REPO_NAME
+while true; do
+  echo "Enter new repository name"
+  read -r REPO_NAME
+  
+  # Regex pattern to validate repository name
+  REPO_NAME_REGEX="^[A-Z][^\.]*$"
+  API_REPO_URL="https://api.github.com/repos/$USERNAME/$REPO_NAME"
+  EXISTING_REPO=$(curl -s -o /dev/null -w "%{http_code}" -u "$USERNAME:$TOKEN" -X GET "$API_REPO_URL")
 
-API_REPO_URL="https://api.github.com/repos/$USERNAME/$REPO_NAME"
-EXISTING_REPO=$(curl -s -o /dev/null -w "%{http_code}" -u "$USERNAME:$TOKEN" -X GET "$API_REPO_URL")
+  if [ $EXISTING_REPO -eq 200 ]; then
+    echo "Repository already exists. Aborting..."
+  fi
+  if [[ $REPO_NAME =~ $REPO_NAME_REGEX ]]; then
+    echo "Valid repository name: $REPO_NAME"
+    break
+  else
+    echo "Invalid repository name. Repository name should not contain a dot (.) and the first letter must be capitalized."
+  fi
+done
 
-if [ $EXISTING_REPO -eq 200 ]; then
-  echo "Repository already exists. Aborting..."
-  exit 1
-fi
+
 
 echo "Enter the repo's description"
 read -r REPO_DESCRIPTION
